@@ -63,7 +63,11 @@ const Index = () => {
 
   // ✅ 2. Setup Embla Carousel
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false }),
+    Autoplay({
+      delay: 3000,
+      stopOnInteraction: false,
+      stopOnMouseEnter: false,
+    }),
   ]);
 
   // ✅ 3. Define slides
@@ -243,10 +247,7 @@ const Index = () => {
           <div className="flex h-full">
             {/* Map through carousel slides */}
             {carouselSlides.map((slide, index) => (
-              <div
-                className="relative flex-[0_0_100%] h-full"
-                key={index}
-              >
+              <div className="relative flex-[0_0_100%] h-full" key={index}>
                 {slide.type === "image" ? (
                   <img
                     src={slide.src}
@@ -291,7 +292,6 @@ const Index = () => {
         </div>
       </section>
       {/* --- END: Hero Section --- */}
-
       {/* --- Dual Care Services Section --- */}
       <section className="py-6 bg-secondary/30">
         {/* ✅ Container padding changed to allow cards to be closer to edge on mobile */}
@@ -299,13 +299,14 @@ const Index = () => {
           {/* 1. Main "SERVICES" Title */}
           <div className="text-center mx-auto mb-8 w-full">
             <div className="inline-block  px-6 py-2  shadow-[0_8px_20px_rgba(0,0,0,0.15)] border border-none rounded-sm">
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-[#3f5066] uppercase tracking-wider 
-   drop-shadow-[2px_2px_0px_#e8d2ff]">
+              <h2
+                className="font-serif text-4xl md:text-5xl font-bold text-[#3f5066] uppercase tracking-wider 
+   drop-shadow-[2px_2px_0px_#e8d2ff]"
+              >
                 Services
               </h2>
             </div>
           </div>
-
           {/* 2. Main 2-column grid (Carpet vs Shawl) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-12 gap-y-16">
             {/* --- 3. CARPETS COLUMN (Left) --- */}
@@ -326,7 +327,7 @@ const Index = () => {
                       <div
                         ref={ref}
                         className={`
-                          group relative h-96 w-full overflow-hidden rounded-2xl shadow-lg cursor-pointer
+                          group relative h-80 lg:h-96 w-full overflow-hidden  shadow-lg cursor-pointer
                           transition-all duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
                           ${
                             inView
@@ -390,7 +391,7 @@ const Index = () => {
                       <div
                         ref={ref}
                         className={`
-                          group relative h-96 w-full overflow-hidden rounded-2xl shadow-lg cursor-pointer
+                          group relative h-80 lg:h-96 w-full overflow-hidden  shadow-lg cursor-pointer
                           transition-all duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
                           ${
                             inView
@@ -459,7 +460,6 @@ const Index = () => {
         {/* End container */}
       </section>
       {/* --- END: Dual Care Services Section --- */}
-
       {/* --- YOUTUBE VIDEO SECTION --- */}
       <section className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden">
         <iframe
@@ -482,7 +482,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
       {/* --- Collections Section --- */}
       <section className="py-8 bg-gradient-to-b from-background to-secondary/30 overflow-hidden">
         <div className="container mx-auto px-2 sm:px-4 overflow-hidden">
@@ -507,7 +506,7 @@ const Index = () => {
               prevArrow={<PrevArrow />}
               responsive={[
                 { breakpoint: 1024, settings: { slidesToShow: 2 } },
-                { breakpoint: 768, settings: { slidesToShow: 2 } }, 
+                { breakpoint: 768, settings: { slidesToShow: 2 } },
               ]}
             >
               {collections.map((item, index) => (
@@ -518,7 +517,7 @@ const Index = () => {
                   rootMargin="0px 0px -50px 0px"
                 >
                   {({ ref, inView }) => (
-                    <div ref={ref} className="px-2 sm:px-4"> 
+                    <div ref={ref} className="px-2 sm:px-4">
                       <div
                         className={`group relative overflow-hidden cursor-pointer bg-card shadow-soft hover:shadow-hover transition-all duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
                           inView
@@ -528,7 +527,7 @@ const Index = () => {
                         style={{ transitionDelay: `${index * 100}ms` }}
                       >
                         {/* === Image === */}
-                        <div className="relative h-[400px] overflow-hidden">
+                        <div className="relative h-80 lg:h-[400px] overflow-hidden">
                           <img
                             src={item.image}
                             alt={item.title}
@@ -582,9 +581,8 @@ const Index = () => {
           </div>
         </div>
       </section>
-      ;
-      {/* Testimonials Section */}
-      <section className="py-8 bg-gradient-to-b from-secondary/30 to-background">
+      ;{/* Testimonials Section */}
+      {/* <section className="py-8 bg-gradient-to-b from-secondary/30 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
             <h2 className="font-display text-4xl md:text-6xl font-bold mb-6 text-[#5A386D]">
@@ -657,101 +655,99 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       <CustomerReviews />
       {/* for befor after work */}
       <section className="w-full bg-gray-50 py-16">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6">
-    {/* Section Heading */}
-    <h2 className="text-center font-serif text-3xl md:text-5xl font-semibold text-gray-800 tracking-wide mb-12">
-      OUR WORK
-    </h2>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          {/* Section Heading */}
+          <h2 className="text-center font-serif text-3xl md:text-5xl font-semibold text-[#794299] tracking-wide mb-12">
+            OUR WORK
+          </h2>
 
-    {/* Carousel Container */}
-    <div className="relative flex flex-col items-center">
-      <div className="flex items-center justify-center w-full max-w-4xl gap-4 sm:gap-8">
-        {/* Left Arrow */}
-        <button
-          onClick={handlePrev}
-          className="hidden sm:flex flex-shrink-0 p-3 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 z-10"
-          aria-label="Previous"
-        >
-          <ChevronLeft className="w-6 h-6 text-gray-800" />
-        </button>
+          {/* Carousel Container */}
+          <div className="relative flex flex-col items-center w-full">
+            <div className="flex items-center justify-center w-full gap-4 sm:gap-8">
+              {/* Left Arrow */}
+              <button
+                onClick={handlePrev}
+                className="hidden sm:flex flex-shrink-0 p-3 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 z-10"
+                aria-label="Previous"
+              >
+                <ChevronLeft className="w-6 h-6 text-[#794299]" />
+              </button>
 
-        {/* Images Container */}
-        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 items-center justify-center">
-          {/* Before Image */}
-          <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200">
-            <img
-              src={workItems[currentIndex].before}
-              alt="Before"
-              className="w-full h-60 sm:h-80 object-cover"
-            />
-            <p className="text-center text-gray-600 text-sm py-2 font-serif">
-              Before
-            </p>
-          </div>
+              {/* Images Container */}
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {/* Before Image */}
+                <div className="w-full rounded-2xl overflow-hidden shadow-xl border border-gray-200">
+                  <img
+                    src={workItems[currentIndex].before}
+                    alt="Before"
+                    className="w-full h-80 sm:h-96 object-cover"
+                  />
+                  <p className="text-center text-[#794299] text-xl py-2 font-serif">
+                    Before
+                  </p>
+                </div>
 
-          {/* After Image */}
-          <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200">
-            <img
-              src={workItems[currentIndex].after}
-              alt="After"
-              className="w-full h-60 sm:h-80 object-cover"
-            />
-            <p className="text-center text-gray-600 text-sm py-2 font-serif">
-              After
-            </p>
+                {/* After Image */}
+                <div className="w-full rounded-2xl overflow-hidden shadow-xl border border-gray-200">
+                  <img
+                    src={workItems[currentIndex].after}
+                    alt="After"
+                    className="w-full h-80 sm:h-96 object-cover"
+                  />
+                  <p className="text-center text-[#794299] text-xl py-2 font-serif">
+                    After
+                  </p>
+                </div>
+              </div>
+
+              {/* Right Arrow */}
+              <button
+                onClick={handleNext}
+                className="hidden sm:flex flex-shrink-0 p-3 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 z-10"
+                aria-label="Next"
+              >
+                <ChevronRight className="w-6 h-6 text-[#794299]" />
+              </button>
+            </div>
+
+            {/* Mobile Arrows */}
+            <div className="flex sm:hidden justify-center gap-8 mt-6">
+              <button
+                onClick={handlePrev}
+                className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition"
+              >
+                <ChevronLeft className="w-5 h-5 text-[#794299]" />
+              </button>
+              <button
+                onClick={handleNext}
+                className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition"
+              >
+                <ChevronRight className="w-5 h-5 text-[#794299]" />
+              </button>
+            </div>
+
+            {/* Carousel Indicators */}
+            <div className="flex justify-center gap-2 mt-6">
+              {workItems.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    index === currentIndex
+                      ? "bg-[#794299] w-8"
+                      : "bg-gray-300 w-2 hover:bg-gray-400"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
-
-        {/* Right Arrow */}
-        <button
-          onClick={handleNext}
-          className="hidden sm:flex flex-shrink-0 p-3 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-300 z-10"
-          aria-label="Next"
-        >
-          <ChevronRight className="w-6 h-6 text-gray-800" />
-        </button>
-      </div>
-
-      {/* Mobile Arrows (below images) */}
-      <div className="flex sm:hidden justify-center gap-8 mt-6">
-        <button
-          onClick={handlePrev}
-          className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition"
-        >
-          <ChevronLeft className="w-5 h-5 text-gray-800" />
-        </button>
-        <button
-          onClick={handleNext}
-          className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition"
-        >
-          <ChevronRight className="w-5 h-5 text-gray-800" />
-        </button>
-      </div>
-
-      {/* Carousel Indicators */}
-      <div className="flex justify-center gap-2 mt-6">
-        {workItems.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`h-2 rounded-full transition-all duration-300 ${
-              index === currentIndex
-                ? "bg-gray-800 w-8"
-                : "bg-gray-300 w-2 hover:bg-gray-400"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
-    </div>
-  </div>
-</section>
-
-
+      </section>
       {/* Appointment Section */}
       <section className="py-16  bg-white from-primary via-primary-dark to-primary relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
@@ -801,7 +797,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
       <Footer />
     </div>
   );

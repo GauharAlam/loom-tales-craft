@@ -1,17 +1,42 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Menu,
   X,
   User,
   Search,
   ShoppingCart,
+  ChevronDown,
+  LogOut,
 } from "lucide-react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import LoginDialog from "./LoginDialog";
+import { useAuth } from "@/context/AuthContext";
+import { cn } from "@/lib/utils";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path: string) => location.pathname === path;
+
+  const { isAuthenticated, user, login, logout } = useAuth();
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Your 7 navigation links
   const navLinks = [
@@ -23,6 +48,11 @@ const Header = () => {
     { path: "/faqs", label: "FAQs" },
     { path: "/contact", label: "Contact" },
   ];
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
@@ -52,20 +82,120 @@ const Header = () => {
 </h1>
 
             </Link>
-            <nav className="flex items-center space-x-6 mt-3">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className={`
-                    font-serif text-sm uppercase tracking-widest transition-colors
-                    ${isActive(link.path) ? "text-gray-900 font-medium" : "text-gray-600 hover:text-gray-900"}
-                  `}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
+            <NavigationMenu className="mt-3">
+              <NavigationMenuList className="space-x-1">
+                {navLinks.map((link) =>
+                  link.label === "Services" ? (
+                    <NavigationMenuItem key={link.path}>
+                      <NavigationMenuTrigger
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          "font-serif text-sm uppercase tracking-widest bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
+                          isActive(link.path)
+                            ? "text-gray-900 font-medium"
+                            : "text-gray-600 hover:text-gray-900"
+                        )}
+                      >
+                        Services
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ul className="grid w-[200px] gap-3 p-4">
+                          <li>
+                            <NavigationMenuLink asChild>
+                              <Link
+                                to="/services#carpet"
+                                className={cn(
+                                  "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                                  "font-serif text-sm"
+                                )}
+                              >
+                                Carpet Services
+                              </Link>
+                            </NavigationMenuLink>
+                          </li>
+                          <li>
+                            <NavigationMenuLink asChild>
+                              <Link
+                                to="/services#shawl"
+                                className={cn(
+                                  "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                                  "font-serif text-sm"
+                                )}
+                              >
+                                Shawl Services
+                              </Link>
+                            </NavigationMenuLink>
+                          </li>
+                        </ul>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  ) : (
+                    link.label === "Collection" ? (
+                      <NavigationMenuItem key={link.path}>
+                        <NavigationMenuTrigger
+                          className={cn(
+                            navigationMenuTriggerStyle(),
+                            "font-serif text-sm uppercase tracking-widest bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
+                            isActive(link.path)
+                              ? "text-gray-900 font-medium"
+                              : "text-gray-600 hover:text-gray-900"
+                          )}
+                        >
+                          Collection
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <ul className="grid w-[200px] gap-3 p-4">
+                            <li>
+                              <NavigationMenuLink asChild>
+                                <Link
+                                  to="/collection#carpet"
+                                  className={cn(
+                                    "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                                    "font-serif text-sm"
+                                  )}
+                                >
+                                  Carpet Collection
+                                </Link>
+                              </NavigationMenuLink>
+                            </li>
+                            <li>
+                              <NavigationMenuLink asChild>
+                                <Link
+                                  to="/collection#shawl"
+                                  className={cn(
+                                    "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                                    "font-serif text-sm"
+                                  )}
+                                >
+                                  Shawl Collection
+                                </Link>
+                              </NavigationMenuLink>
+                            </li>
+                          </ul>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    ) : (
+                      <NavigationMenuItem key={link.path}>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          to={link.path}
+                          className={cn(
+                            navigationMenuTriggerStyle(),
+                            "font-serif text-sm uppercase tracking-widest bg-transparent hover:bg-transparent focus:bg-transparent",
+                            isActive(link.path)
+                              ? "text-gray-900 font-medium"
+                              : "text-gray-600 hover:text-gray-900"
+                          )}
+                        >
+                          {link.label}
+                        </Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                    )
+                  )
+                )}
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
           {/* Center: Logo (Mobile) */}
@@ -79,9 +209,45 @@ const Header = () => {
 
           {/* ✅ MOVED: Right Icons (Desktop) */}
           <div className="hidden lg:flex items-center space-x-5">
-            <button className="text-gray-700 hover:text-gray-900" aria-label="My Account">
-              <User className="w-5 h-5" />
-            </button>
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="text-gray-700 hover:text-gray-900 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  >
+                    <User className="w-5 h-5 mr-1" />
+                    <span className="font-serif text-sm capitalize">{user}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link
+                      to="/admin/dashboard"
+                      className="cursor-pointer font-serif text-sm"
+                    >
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer font-serif text-sm text-destructive focus:text-destructive"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" /> Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button
+                variant="ghost"
+                className="text-gray-700 hover:text-gray-900 focus-visible:ring-0 focus-visible:ring-offset-0"
+                aria-label="Login"
+                onClick={() => setIsLoginDialogOpen(true)}
+              >
+                <User className="w-5 h-5" />
+              </Button>
+            )}
+
             <button className="text-gray-700 hover:text-gray-900" aria-label="Search">
               <Search className="w-5 h-5" />
             </button>
@@ -109,6 +275,13 @@ const Header = () => {
         </div>
       </div>
 
+      {/* Login Dialog Component */}
+      <LoginDialog
+        isOpen={isLoginDialogOpen}
+        onOpenChange={setIsLoginDialogOpen}
+        onLoginSuccess={login}
+      />
+
       {/* Mobile Menu Dropdown */}
       {isOpen && (
         <nav className="lg:hidden py-4 bg-white border-t border-gray-200 shadow-lg animate-fade-in-down">
@@ -129,10 +302,39 @@ const Header = () => {
             ))}
             {/* Mobile menu icons */}
             <div className="flex justify-around pt-4 border-t border-gray-200 mt-2">
-              <Link to="/profile" onClick={() => setIsOpen(false)} className="flex flex-col items-center text-gray-700 hover:text-gray-900">
-                <User className="w-5 h-5" />
-                <span className="text-xs mt-1">Profile</span>
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <Link
+                    to="/admin/dashboard"
+                    onClick={() => setIsOpen(false)}
+                    className="flex flex-col items-center text-gray-700 hover:text-gray-900"
+                  >
+                    <User className="w-5 h-5" />
+                    <span className="text-xs mt-1 capitalize">{user}</span>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsOpen(false);
+                    }}
+                    className="flex flex-col items-center text-destructive hover:text-destructive/80"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    <span className="text-xs mt-1">Logout</span>
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => {
+                    setIsLoginDialogOpen(true);
+                    setIsOpen(false);
+                  }}
+                  className="flex flex-col items-center text-gray-700 hover:text-gray-900"
+                >
+                  <User className="w-5 h-5" />
+                  <span className="text-xs mt-1">Login</span>
+                </button>
+              )}
               <button className="flex flex-col items-center text-gray-700 hover:text-gray-900">
                 <Search className="w-5 h-5" />
                 <span className="text-xs mt-1">Search</span>

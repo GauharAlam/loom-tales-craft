@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -30,7 +31,7 @@ const carpetServices = [
   {
     title: "Expert Repairing",
     description: [
-      "Expertise and skill are crucial when it comes to repairing damaged rugs, guaranteeing a successful restoration. Restoring a rug with minor damage is relatively easier compared to one with extensive damage. Our team of professional rug repair specialists possesses the necessary knowledge and experience to address various types of rug damage.",
+      "Expertise and skill are crucial when it to repairing damaged rugs, guaranteeing a successful restoration. Restoring a rug with minor damage is relatively easier compared to one with extensive damage. Our team of professional rug repair specialists possesses the necessary knowledge and experience to address various types of rug damage.",
     ],
     bulletPoints: [
       "Fringe repair/replacement",
@@ -105,9 +106,9 @@ const otherServices = [
   },
 ];
 
-const ServiceSection = ({ services, sectionTitle, bgColor }) => {
+const ServiceSection = ({ services, sectionTitle, bgColor, sectionRef, id }: { services: any[], sectionTitle: string, bgColor: string, sectionRef: React.RefObject<HTMLElement>, id: string }) => {
   return (
-    <section>
+    <section ref={sectionRef} id={id}>
       <div className="container mx-auto px-4">
         <h2
           className="text-4xl md:text-5xl font-serif  text-[#3f5066] tracking-wider mb-16 text-center pt-16 uppercase"
@@ -133,7 +134,7 @@ const ServiceSection = ({ services, sectionTitle, bgColor }) => {
                       index % 2 === 1 ? "lg:order-last" : ""
                     } flex items-center justify-center`}
                   >
-                    <div className="rounded-lg w-[80%] overflow-hidden shadow-lg border border-black/5 h-80">
+                    <div className="rounded-lg w-full h-[24rem] overflow-hidden shadow-lg border border-black/5">
                       <iframe
                         src={`${service.videoSrc}?autoplay=1&mute=1&loop=1&controls=1&showinfo=0`}
                         title={service.title}
@@ -150,7 +151,7 @@ const ServiceSection = ({ services, sectionTitle, bgColor }) => {
                       {service.title}
                     </h3>
 
-                    {service.description.map((text, i) => (
+                    {service.description.map((text: string, i: number) => (
                       <p
                         key={i}
                         className="text-base text-gray-600 mb-4 leading-relaxed"
@@ -160,7 +161,7 @@ const ServiceSection = ({ services, sectionTitle, bgColor }) => {
                     ))}
 
                     <ul className="list-disc list-inside space-y-2 mt-6 text-base text-gray-600">
-                      {service.bulletPoints.map((point, i) => (
+                      {service.bulletPoints.map((point: string, i: number) => (
                         <li key={i}>{point}</li>
                       ))}
                     </ul>
@@ -176,6 +177,21 @@ const ServiceSection = ({ services, sectionTitle, bgColor }) => {
 };
 
 const Services = () => {
+  const carpetRef = useRef<HTMLDivElement>(null);
+  const shawlRef = useRef<HTMLDivElement>(null);
+  const otherRef = useRef<HTMLDivElement>(null);
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash === "#carpet" && carpetRef.current) {
+      carpetRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (hash === "#shawl" && shawlRef.current) {
+      shawlRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (hash === "#other" && otherRef.current) {
+      otherRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [hash]);
+
   return (
     <div>
       <Header />
@@ -190,6 +206,8 @@ const Services = () => {
         services={carpetServices}
         sectionTitle="Carpet Services"
         bgColor="bg-amber-50"
+        sectionRef={carpetRef}
+        id="carpet"
       />
 
       {/* Shawl Services Section */}
@@ -197,13 +215,17 @@ const Services = () => {
         services={shawlServices}
         sectionTitle="Shawl Services"
         bgColor="bg-white"
+        sectionRef={shawlRef}
+        id="shawl"
       />
 
       {/* Other Services Section */}
       <ServiceSection
         services={otherServices}
         sectionTitle="Other Services"
-        bgColor="bg-amber-50"
+        bgColor="bg-amber-5Other"
+        sectionRef={otherRef}
+        id="other"
       />
 
       {/* Our Advantages Section - White */}
